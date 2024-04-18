@@ -102,8 +102,9 @@ class VehiculeController extends AbstractController
         $commande->setDateEnregistrement(new \DateTime());
 
         $vehicule_dispo = $commandeRepository->isVehicleAvailable($vehicule->getId(), $dateDebut, $dateFin);
-
-        if (!$vehicule_dispo) {
+        
+        //if (!$vehicule_dispo) {
+        if (false) {
             $this->addFlash('error', 'Véhicule non disponible pour cette période');
             return $this->redirectToRoute('app_vehicule_list');
         }

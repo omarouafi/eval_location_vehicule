@@ -83,7 +83,7 @@
                                 <div class="mt-4 flex text-sm leading-6 text-gray-600">
                                     <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                                     <span>Telecharger une photo</span>
-                                    <input id="file-upload" name="photo" type="file" class="sr-only" onchange="previewImage(this)">
+<input id="file-upload" name="photo" type="file" class="sr-only" onchange="previewImage(this)" accept="image/*" />
                                     </label>
                                 </div>
                                 <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
@@ -108,22 +108,24 @@
     </div>
 
     <script>
-        function previewImage(input) {
-            const preview = document.getElementById('image-preview');
-            const file = input.files[0];
+         function previewImage(input) {
+        const preview = document.getElementById('image-preview');
+        const file = input.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if (file && allowedTypes.includes(file.type)) {
             preview.style.display = 'block';
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '';
-            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+            input.value = '';
+            alert('Please select a valid image file (JPEG, PNG, GIF).');
         }
+    }
     </script>
 
 {% endblock %}

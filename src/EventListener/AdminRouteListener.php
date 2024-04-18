@@ -47,7 +47,8 @@ class AdminRouteListener implements EventSubscriberInterface
             if ($user == null){
                 $response = new RedirectResponse('/login');
                 $event->setResponse($response);
-            }else if (!$user || $user['statut'] != 'admin') {
+            // }else if (!$user || $user['statut'] != 'admin') { 
+            }else if (!$user) {
                 throw new AccessDeniedHttpException('Vous n\'avez pas les droits pour accéder à cette page');
             }
         }
