@@ -40,11 +40,13 @@ class VehiculeController extends AbstractController
 
         $user =$request->attributes->get("user");
 
-        if (!$user) {
-            return $this->redirectToRoute('login_form', [
-                'redirect' => "dateDebut=".$dateDebut->format('Y-m-d H:i:s')."&dateFin=".$dateFin->format('Y-m-d H:i:s')
-                ]);
-        }
+        // Security breach
+        // I removed this check to let the user see the cars list even he isn't login 
+        // if (!$user) {
+        //     return $this->redirectToRoute('login_form', [
+        //         'redirect' => "dateDebut=".$dateDebut->format('Y-m-d H:i:s')."&dateFin=".$dateFin->format('Y-m-d H:i:s')
+        //         ]);
+        // }
 
 
         $reserved_vehicules = $commandeRepository->findReservedVehiculeIds($dateDebut, $dateFin);

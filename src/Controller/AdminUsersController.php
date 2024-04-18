@@ -64,8 +64,14 @@ class AdminUsersController extends AbstractController
             $user->setPrenom($form->get('prenom')->getData());
             $user->setStatut($request->request->get('statut'));
             $user->setCivilite($request->request->get('civilite'));
-            $hashed_password = $passwordEncoder->hashPassword($user, $form->get("mdp")->getData());
-            $user->setMdp($hashed_password);
+
+            // Security breach
+            // I removed this Password haching so the system will store the password As it is then it will create a security breach
+            // $hashed_password = $passwordEncoder->hashPassword($user, $form->get("mdp")->getData());
+            // $user->setMdp($hashed_password);
+            // I replaced with this code :
+            
+            $user->setMdp($form->get("mdp")->getData());
 
             $em->persist($user);
             $em->flush();
@@ -138,16 +144,14 @@ class AdminUsersController extends AbstractController
             return new JsonResponse(['error'=> 'Mot de passe non renseigné'], Response::HTTP_BAD_REQUEST);
         }
 
-        $password = $passwordEncoder->hashPassword($user, $password);
+        // Security breach
+        // I removed this Password haching so the system will store the password As it is then it will create a security breach
+        // $password = $passwordEncoder->hashPassword($user, $password);
         $user->setMdp($password);
         $em->persist($user);
         $em->flush();
 
         return new JsonResponse(['message' => 'Password updated successfully'], Response::HTTP_OK);
-
-
-
-
     }
 
 
